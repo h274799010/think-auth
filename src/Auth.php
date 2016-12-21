@@ -2,11 +2,11 @@
 // +----------------------------------------------------------------------
 // | ThinkPHP 5 [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2016 http://www.zzstudio.net All rights reserved.
+// | Copyright (c) 2016 .
 // +----------------------------------------------------------------------
 // | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: Byron Sampson <xiaobo.sun@gzzstudio.net>
+// | Author: Byron Sampson <lmxdawn@gmail.com>
 // +----------------------------------------------------------------------
 namespace think\auth;
 
