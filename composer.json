@@ -1,0 +1,25 @@
+{
+    "name": "lmxdawn/think-auth",
+    "description": "auth package",
+    "homepage": "https://github.com/lmxdawn/think-auth",
+    "license": "Apache-2.0",
+    "minimum-stability": "stable",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "lmxdawn",
+            "email": "lmxdawn@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/lmxdawn/think-auth/issues"
+    },
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "think\\auth\\": "src/"
+        }
+    }
+}
