@@ -95,18 +95,31 @@ class Auth
     ];
 
     /**
-     * 类架构函数
+     * 类架构函数 （私有构造函数，防止外界实例化对象）
+     * @param array $options 参数
      * Auth constructor.
      */
-    public function __construct()
+    private function __construct($options = [])
     {
         //可设置配置项 auth, 此配置项为数组。
         if ($auth = Config::get('auth')) {
             $this->config = array_merge($this->config, $auth);
         }
 
+        // 将传递过来的参数替换
+        if (!empty($options) && is_array($options)){
+            $this->config = array_merge($this->config, $options);
+        }
+
         // 初始化request
         $this->request = Request::instance();
+    }
+
+    /**
+     * 私有克隆函数，防止外办克隆对象
+     */
+    private function __clone() {
+
     }
 
     /**
