@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: Byron Sampson <lmxdawn@gmail.com>
 // +----------------------------------------------------------------------
-namespace think\auth;
+namespace lmxdawn\auth;
 
 use think\Db;
 use think\Config;
