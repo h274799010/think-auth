@@ -2,14 +2,14 @@
     "name": "lmxdawn/think-auth",
     "type": "library",
     "description": "auth package",
-    "keywords": ["tree"],
+    "keywords": ["auth"],
     "homepage": "https://github.com/lmxdawn/think-auth",
     "license": "Apache-2.0",
     "minimum-stability": "stable",
     "version": "1.0.0",
     "authors": [
         {
-            "name": "lmxdawn",
+            "name": "Lan Ming Xiang",
             "email": "lmxdawn@gmail.com"
         }
     ],
