@@ -3,7 +3,7 @@
 # 这里 仅供自己参考 方便 (参考别人的代码)
 
 ## 安装
-> composer require lmxdawn/think-auth
+> composer require lmxdawn/think-auth:dev-master
 
 ## 配置
 ### 公共配置
