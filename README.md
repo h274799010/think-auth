@@ -8,7 +8,7 @@
 ```
 // auth配置
 'auth'  => [
-    'auth_on' => true, // 权限开关
+    'auth_on' => true, //  权限 开关
     'auth_cache' => false, //是否开启缓存
     'auth_key' => '_auth_', // 数据缓存的key
     'auth_rule' => 'auth_rule', // 权限规则表
