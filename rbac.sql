@@ -1,31 +1,19 @@
+/*
+ Navicat Premium Data Transfer
 
+ Source Server         : php
+ Source Server Type    : MySQL
+ Source Server Version : 50542
+ Source Host           : localhost
+ Source Database       : think
 
-# 这里 仅供自己参考 方便 (参考别人的代码)
+ Target Server Type    : MySQL
+ Target Server Version : 50542
+ File Encoding         : utf-8
 
-## 安装
-> composer require lmxdawn/think-auth:dev-master
+ Date: 01/14/2017 03:34:39 AM
+*/
 
-## 配置
-### 公共配置
-```
-// auth配置
-'auth'  => [
-    'auth_on' => true, // 权限开关
-    'auth_cache' => false, //是否开启缓存
-    'auth_key' => '_auth_', // 数据缓存的key
-    'auth_rule' => 'auth_rule', // 权限规则表
-    'auth_access' => 'auth_access', // 权限授权表
-    'role' => 'role', // 角色表
-    'role_user' => 'role_user', // 用户角色对应表
-    'users' => 'users', // 用户信息表
-    'users_auth_fields' => [],//用户需要验证的规则表达式字段 空代表所有用户字段
-],
-```
-
-### 导入数据表
-> `lmx_` 为自定义的数据表前缀
-
-```
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -146,88 +134,3 @@ CREATE TABLE `lmx_users` (
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 SET FOREIGN_KEY_CHECKS = 1;
-```
-
-## 原理
-Auth权限认证是按规则进行认证。
-在数据库中我们有 
-
-- 规则表（lmx_auth_rule） 
-- 权限授权表（lmx_auth_access）
-- 角色表(lmx_role) 
-- 用户角色对应表（lmx_role_user）
-- 菜单表（lmx_menu）
-- 用户表（lmx_users）
-
-在规则表中定义规则,角色表里面定角色,权限授权表里面对应角色拥有的权限(一个角色对应多个权限),在用户角色对应表里面定义用户有多少角色(多个)
-
-
-## 使用
-判断权限方法
-```
-
-// 获取auth实例
-$auth = \lmxdawn\auth\Auth::getInstance();
-
-// 检测权限
-if($auth->check('规则1,规则2','用户id','and')){// 第一个参数是规则名称,第二个参数是用户UID,第三个参数为判断条件
-	//有显示操作按钮的权限
-}else{
-	//没有显示操作按钮的权限
-}
-```
-
-Auth类也可以对节点进行认证，我们只要将规则名称，定义为节点名称就行了。 
-可以在公共控制器Base中定义_initialize方法
-```
-<?php
-use think\Controller;
-use think\auth\Auth;
-class Base extends Controller
-{
-    public function _initialize()
-	{
-		$controller = request()->controller();
-		$action = request()->action();
-		$auth = \lmxdawn\auth\Auth::getInstance();
-		if(!$auth->check($controller . '-' . $action, session('uid'))){
-			$this->error('你没有权限访问');
-		}
-    }
- }
-```
-这时候我们可以在数据库中添加的节点规则， 格式为： “控制器名称-方法名称”
-
-Auth 类 还可以多个规则一起认证 如： 
-```
-$auth->check('rule1,rule2',uid); 
-```
-表示 认证用户只要有rule1的权限或rule2的权限，只要有一个规则的权限，认证返回结果就为true 即认证通过。 默认多个权限的关系是 “or” 关系，也就是说多个权限中，只要有个权限通过则通过。 我们也可以定义为 “and” 关系
-```
-$auth->check('rule1,rule2',uid,'and'); 
-```
-第三个参数指定为"and" 表示多个规则以and关系进行认证， 这时候多个规则同时通过认证才有权限。只要一个规则没有权限则就会返回false。
-
-Auth认证，一个用户可以属于多个用户组。 比如我们对 show_button这个规则进行认证， 用户A 同时属于 用户组1 和用户组2 两个用户组 ， 用户组1 没有show_button 规则权限， 但如果用户组2 有show_button 规则权限，则一样会权限认证通过。 
-```
-$auth->getRoleUser($uid)
-```
-通过上面代码，可以获得用户所属的所有用户组，方便我们在网站上面显示。
-
-Auth类还可以按用户属性进行判断权限， 比如
-按照用户积分进行判断， 假设我们的用户表 (lmx_members) 有字段 score 记录了用户积分。 
-我在规则表添加规则时，定义规则表的condition 字段，condition字段是规则条件，默认为空 表示没有附加条件，用户组中只有规则 就通过认证。
-如果定义了 condition字段，用户组中有规则不一定能通过认证，程序还会判断是否满足附加条件。
-比如我们添加几条规则： 
-
-> `name`字段：grade1 `condition`字段：{score}<100 <br/>
-> `name`字段：grade2 `condition`字段：{score}>100 and {score}<200<br/>
-> `name`字段：grade3 `condition`字段：{score}>200 and {score}<300
-
-这里 `{score}` 表示 `lmx_members` 表 中字段 `score` 的值。 
-
-那么这时候 
-
-> $auth->check('grade1', uid) 是判断用户积分是不是0-100<br/>
-> $auth->check('grade2', uid) 判断用户积分是不是在100-200<br/>
-> $auth->check('grade3', uid) 判断用户积分是不是在200-300
