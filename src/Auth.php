@@ -201,7 +201,8 @@ class Auth {
 
                 if (empty($rule_data)) return false;
 
-                Cache::set($this->getRuleKey($uid),$rule_data);
+                if ($this->config['auth_cache'])
+                    Cache::set($this->getRuleKey($uid),$rule_data);
 
             }
 
@@ -247,7 +248,8 @@ class Auth {
 
                 if (empty($role_user_data)) return false;
 
-                Session::set($this->getRoleUserKey(),$role_user_data);
+                if ($this->config['auth_cache'])
+                    Session::set($this->getRoleUserKey(),$role_user_data);
             }
 
             $this->roleUser = $role_user_data;
@@ -286,7 +288,8 @@ class Auth {
 
                 $userinfo = $user->field($this->config['users_auth_fields'])->where($_pk, $uid)->find();
 
-                Session::set($this->getUserKey($uid),$userinfo);
+                if ($this->config['auth_cache'])
+                    Session::set($this->getUserKey($uid),$userinfo);
             }
 
 
