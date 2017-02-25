@@ -123,7 +123,6 @@ class Auth {
             return true;
         }
 
-
         if (is_string($name)) {
             $name = strtolower($name);
             if (strpos($name, ',') !== false) {
@@ -134,7 +133,7 @@ class Auth {
         }
 
         // 获取该用户 对应 该规则名的权限列表
-        $rules = $this->getRuleData($uid,$name);
+        $rules = $this->getRuleData($uid);
 
         if (empty($rules)){
             return false;
@@ -175,9 +174,9 @@ class Auth {
      * @param $name 需要验证的规则名称
      * @return array
      */
-    public function getRuleData($uid,$name) {
+    public function getRuleData($uid) {
 
-        if (empty($this->ruleData) && !empty($uid) && !empty($name)){
+        if (empty($this->ruleData) && !empty($uid)){
 
             $rule_data = $this->config['auth_cache'] ? Cache::get($this->getRuleKey($uid)) : [];
 
@@ -190,7 +189,6 @@ class Auth {
                 $groups = $this->getRoleUser($uid);
                 $where['a.role_id'] = ['in',$groups];
 
-                $where['b.name'] = ['in',$name];
                 $where['b.status'] = 1;
 
                 $rule_data = Db::name('auth_access')->alias("a")
